@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://locations.haircuttery.com/va/warrenton/41-w-lee-hwy-ste/sitemap.xml
