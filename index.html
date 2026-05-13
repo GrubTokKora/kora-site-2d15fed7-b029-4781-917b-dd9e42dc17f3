@@ -18,8 +18,9 @@
 <link href="https://www.haircuttery.com/wp-content/uploads/2025/01/hc-logo-black.svg" rel="apple-touch-icon"/>
 <!-- Canonical -->
 <link href="https://staging.kora-2d15fed7-b029-4781-917b-dd9e42dc17f3.pages.dev" rel="canonical"/>
-<!-- Hero Image Preload -->
-<link as="image" href="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-scaled.jpg" rel="preload"/>
+<!-- Hero LCP images: match <picture> sources so the browser discovers the right asset early -->
+<link rel="preload" as="image" href="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-mobile.jpg" media="(max-width: 768px)" fetchpriority="high"/>
+<link rel="preload" as="image" href="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-scaled.jpg" media="(min-width: 769px)" fetchpriority="high"/>
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -51,26 +52,15 @@
 }</script>
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- Google Fonts -->
+<!-- Google Fonts (load as stylesheet after download — avoids render-blocking) -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-<!-- reCAPTCHA v2 -->
-<script async="" defer="" src="https://www.google.com/recaptcha/api.js"></script>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/></noscript>
 <style>
     body { font-family: 'Inter', sans-serif; }
-    .hero-bg {
-      background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-scaled.jpg');
-      background-size: cover;
-      background-position: center;
-    }
     .service-card:hover { transform: translateY(-4px); }
     .gallery-img { aspect-ratio: 1; object-fit: cover; }
-    @media (max-width: 768px) {
-      .hero-bg { background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-mobile.jpg'); }
-    }
   </style>
 <!-- Kora Site Config -->
 <script>
@@ -87,7 +77,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex justify-between items-center h-20">
 <div class="flex-shrink-0 flex items-center">
-<img alt="Hair Cuttery" class="h-8 w-auto" src="https://www.haircuttery.com/wp-content/uploads/2025/01/hc-logo-black.svg"/>
+<img alt="Hair Cuttery" class="h-8 w-auto" height="32" src="https://www.haircuttery.com/wp-content/uploads/2025/01/hc-logo-black.svg" width="160"/>
 </div>
 <div class="hidden md:flex space-x-8">
 <a class="text-gray-700 hover:text-[#2D5A27] font-medium transition" href="#services">Services</a>
@@ -98,31 +88,36 @@
 </div>
 <div>
 <a class="bg-[#2D5A27] hover:bg-[#1e3d1a] text-white px-6 py-3 rounded-full font-semibold transition shadow-lg flex items-center gap-2" href="https://www.haircuttery.com/booking/?salonId=193">
-<i class="w-4 h-4" data-lucide="calendar"></i>
+<svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
             Book Now
           </a>
 </div>
 </div>
 </div>
 </nav>
-<!-- Hero Section -->
-<section class="hero-bg min-h-[600px] flex items-center justify-center text-center px-4">
-<div class="max-w-4xl mx-auto text-white">
+<!-- Hero Section: real <img> for LCP + gradient overlay (Tailwind CDN unchanged) -->
+<section class="relative isolate min-h-[600px] flex items-center justify-center overflow-hidden text-center px-4">
+<picture class="pointer-events-none absolute inset-0 -z-10">
+<source media="(max-width: 768px)" srcset="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-mobile.jpg"/>
+<img alt="Hair Cuttery stylists and guests" class="absolute inset-0 h-full w-full object-cover" decoding="async" fetchpriority="high" height="1080" src="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-hero-scaled.jpg" width="1920"/>
+</picture>
+<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-b from-black/55 to-black/40 md:from-black/50 md:to-black/35"></div>
+<div class="relative z-10 max-w-4xl mx-auto text-white">
 <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">Growing With Purpose.</h1>
 <p class="text-xl md:text-2xl mb-2 font-light">500+ locations and counting.</p>
 <p class="text-lg md:text-xl mb-8 opacity-90">Warrenton, VA • Professional Hair Care for the Whole Family</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
 <a class="bg-[#2D5A27] hover:bg-[#1e3d1a] text-white px-8 py-4 rounded-full font-bold text-lg transition shadow-xl flex items-center justify-center gap-2" href="https://www.haircuttery.com/booking/?salonId=193">
-<i class="w-5 h-5" data-lucide="scissors"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" x2="8.12" y1="4" y2="15.88"/><line x1="14.47" x2="20" y1="14.48" y2="20"/><line x1="8.12" x2="12" y1="8.12" y2="12"/></svg>
           Book Appointment
         </a>
 <a class="bg-white hover:bg-gray-100 text-[#2D5A27] px-8 py-4 rounded-full font-bold text-lg transition shadow-xl flex items-center justify-center gap-2" href="tel:+15403479755">
-<i class="w-5 h-5" data-lucide="phone"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           Call (540) 347-9755
         </a>
 </div>
 <div class="mt-8 flex items-center justify-center gap-2 text-sm opacity-90">
-<i class="w-5 h-5 fill-yellow-400 text-yellow-400" data-lucide="star"></i>
+<svg class="w-5 h-5 shrink-0 text-yellow-400 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 <span class="font-semibold">4.3</span>
 <span>(328 reviews)</span>
 </div>
@@ -139,21 +134,21 @@
 <div class="grid md:grid-cols-3 gap-8 text-center">
 <div class="bg-white p-8 rounded-2xl shadow-md">
 <div class="w-16 h-16 bg-[#79A96B] bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-<i class="w-8 h-8 text-[#2D5A27]" data-lucide="scissors"></i>
+<svg class="w-8 h-8 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" x2="8.12" y1="4" y2="15.88"/><line x1="14.47" x2="20" y1="14.48" y2="20"/><line x1="8.12" x2="12" y1="8.12" y2="12"/></svg>
 </div>
 <h3 class="text-xl font-bold mb-2">Expert Stylists</h3>
 <p class="text-gray-600">Professional trained in the latest techniques and trends for all hair types.</p>
 </div>
 <div class="bg-white p-8 rounded-2xl shadow-md">
 <div class="w-16 h-16 bg-[#79A96B] bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-<i class="w-8 h-8 text-[#2D5A27]" data-lucide="users"></i>
+<svg class="w-8 h-8 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 </div>
 <h3 class="text-xl font-bold mb-2">Family Friendly</h3>
 <p class="text-gray-600">Services for everyone from kids to seniors, including specialized kids cuts.</p>
 </div>
 <div class="bg-white p-8 rounded-2xl shadow-md">
 <div class="w-16 h-16 bg-[#79A96B] bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-<i class="w-8 h-8 text-[#2D5A27]" data-lucide="sparkles"></i>
+<svg class="w-8 h-8 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
 </div>
 <h3 class="text-xl font-bold mb-2">Full Service</h3>
 <p class="text-gray-600">From cuts and color to treatments and styling, we've got you covered.</p>
@@ -168,7 +163,7 @@
 <!-- Cut & Style -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="scissors"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" x2="8.12" y1="4" y2="15.88"/><line x1="14.47" x2="20" y1="14.48" y2="20"/><line x1="8.12" x2="12" y1="8.12" y2="12"/></svg>
 <h3 class="text-xl font-bold">Cut &amp; Style</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -182,7 +177,7 @@
 <!-- Color Services -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="palette"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
 <h3 class="text-xl font-bold">Color</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -196,7 +191,7 @@
 <!-- Styling -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="wind"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>
 <h3 class="text-xl font-bold">Styling</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -210,7 +205,7 @@
 <!-- Treatments -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="heart"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
 <h3 class="text-xl font-bold">Treatments</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -224,7 +219,7 @@
 <!-- Texture & Curl -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="waves"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
 <h3 class="text-xl font-bold">Texture &amp; Curl</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -237,7 +232,7 @@
 <!-- Products -->
 <div class="service-card bg-[#F9F7F2] p-6 rounded-xl transition duration-300">
 <div class="flex items-center gap-3 mb-4">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="shopping-bag"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
 <h3 class="text-xl font-bold">Cibu Products</h3>
 </div>
 <ul class="space-y-2 text-gray-700">
@@ -251,7 +246,7 @@
 <div class="text-center mt-10">
 <p class="text-gray-600 mb-4">Value packages available combining multiple services with product discounts</p>
 <a class="inline-flex items-center gap-2 text-[#2D5A27] font-semibold hover:underline" href="https://www.haircuttery.com/booking/?salonId=193">
-          View All Services &amp; Book Now <i class="w-4 h-4" data-lucide="arrow-right"></i>
+          View All Services &amp; Book Now <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
 </a>
 </div>
 </div>
@@ -303,26 +298,26 @@
 <div class="flex items-center justify-center gap-2 mb-12">
 <span class="text-2xl font-bold">4.3</span>
 <div class="flex">
-<i class="w-5 h-5 fill-yellow-400 text-yellow-400" data-lucide="star"></i>
-<i class="w-5 h-5 fill-yellow-400 text-yellow-400" data-lucide="star"></i>
-<i class="w-5 h-5 fill-yellow-400 text-yellow-400" data-lucide="star"></i>
-<i class="w-5 h-5 fill-yellow-400 text-yellow-400" data-lucide="star"></i>
-<i class="w-5 h-5 fill-gray-300 text-gray-300" data-lucide="star"></i>
+<svg class="w-5 h-5 shrink-0 text-yellow-400 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-5 h-5 shrink-0 text-yellow-400 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-5 h-5 shrink-0 text-yellow-400 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-5 h-5 shrink-0 text-yellow-400 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-5 h-5 shrink-0 text-gray-300 fill-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 </div>
 <span class="text-gray-600">(328 reviews)</span>
 </div>
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 <div class="bg-white p-6 rounded-xl shadow-md">
 <div class="flex items-center gap-3 mb-4">
-<img alt="Mary Fairbanks" class="w-12 h-12 rounded-full object-cover" loading="lazy" src="https://lh3.googleusercontent.com/a-/ALV-UjUlNVOTdQUgHsE_9i2EQ19sAxxuqL7Ug9HDHP8wy-6GdrtqRb1Y=s128-c0x00000000-cc-rp-mo"/>
+<img alt="Mary Fairbanks" class="w-12 h-12 rounded-full object-cover" height="48" loading="lazy" src="https://lh3.googleusercontent.com/a-/ALV-UjUlNVOTdQUgHsE_9i2EQ19sAxxuqL7Ug9HDHP8wy-6GdrtqRb1Y=s128-c0x00000000-cc-rp-mo" width="48"/>
 <div>
 <h4 class="font-bold">Mary Fairbanks</h4>
 <div class="flex text-yellow-400">
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 </div>
 </div>
 </div>
@@ -331,15 +326,15 @@
 </div>
 <div class="bg-white p-6 rounded-xl shadow-md">
 <div class="flex items-center gap-3 mb-4">
-<img alt="Callie" class="w-12 h-12 rounded-full object-cover" loading="lazy" src="https://lh3.googleusercontent.com/a-/ALV-UjU25xcQxJDc5Pr3aD4Ryo4ToLTy0GTGXTGUjS_pLBOFTHXGUGGyxw=s128-c0x00000000-cc-rp-mo"/>
+<img alt="Callie" class="w-12 h-12 rounded-full object-cover" height="48" loading="lazy" src="https://lh3.googleusercontent.com/a-/ALV-UjU25xcQxJDc5Pr3aD4Ryo4ToLTy0GTGXTGUjS_pLBOFTHXGUGGyxw=s128-c0x00000000-cc-rp-mo" width="48"/>
 <div>
 <h4 class="font-bold">Callie</h4>
 <div class="flex text-yellow-400">
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 </div>
 </div>
 </div>
@@ -348,15 +343,15 @@
 </div>
 <div class="bg-white p-6 rounded-xl shadow-md">
 <div class="flex items-center gap-3 mb-4">
-<img alt="Jennifer Caine" class="w-12 h-12 rounded-full object-cover" loading="lazy" src="https://lh3.googleusercontent.com/a/ACg8ocJ8i7icFRH5a7Df2awPtoncfBeYdLcpSv5MMuNDZfmavq_XjA=s128-c0x00000000-cc-rp-mo-ba2"/>
+<img alt="Jennifer Caine" class="w-12 h-12 rounded-full object-cover" height="48" loading="lazy" src="https://lh3.googleusercontent.com/a/ACg8ocJ8i7icFRH5a7Df2awPtoncfBeYdLcpSv5MMuNDZfmavq_XjA=s128-c0x00000000-cc-rp-mo-ba2" width="48"/>
 <div>
 <h4 class="font-bold">Jennifer Caine</h4>
 <div class="flex text-yellow-400">
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
-<i class="w-4 h-4 fill-current" data-lucide="star"></i>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<svg class="w-4 h-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 </div>
 </div>
 </div>
@@ -366,7 +361,7 @@
 </div>
 <div class="text-center mt-8">
 <a class="inline-flex items-center gap-2 text-[#2D5A27] font-semibold hover:underline" href="https://www.google.com/maps/place/?q=place_id:ChIJ11tZlVd8tokRIdqFKsxgDB4" target="_blank">
-          Read More Reviews on Google <i class="w-4 h-4" data-lucide="external-link"></i>
+          Read More Reviews on Google <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
 </a>
 </div>
 </div>
@@ -376,14 +371,14 @@
 <div class="max-w-7xl mx-auto px-4">
 <h2 class="text-3xl md:text-4xl font-bold text-center text-[#2D5A27] mb-12">Our Work</h2>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-<img alt="Curtain bangs hairstyle" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-curtain-bangs-300x300.jpg"/>
-<img alt="Pixie cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-pixie-cut-300x300.jpg"/>
-<img alt="Senior bob hairstyle" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-women-bob-300x300.jpg"/>
-<img alt="Taper fade haircut" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-mens-taper-fade-300x300.jpg"/>
-<img alt="Wolf cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-wolf-cut-300x300.jpg"/>
-<img alt="Butterfly cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-butterfly-cut-300x300.jpg"/>
-<img alt="Curly hair style" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-curly-300x300.jpg"/>
-<img alt="Layered haircut" class="gallery-img rounded-lg shadow-md w-full" loading="lazy" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-women-layers-300x300.jpg"/>
+<img alt="Curtain bangs hairstyle" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-curtain-bangs-300x300.jpg"/>
+<img alt="Pixie cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-pixie-cut-300x300.jpg"/>
+<img alt="Senior bob hairstyle" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-women-bob-300x300.jpg"/>
+<img alt="Taper fade haircut" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-mens-taper-fade-300x300.jpg"/>
+<img alt="Wolf cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-wolf-cut-300x300.jpg"/>
+<img alt="Butterfly cut hairstyle" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/02/womens-butterfly-cut-300x300.jpg"/>
+<img alt="Curly hair style" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/girls-curly-300x300.jpg"/>
+<img alt="Layered haircut" class="gallery-img rounded-lg shadow-md w-full" height="300" loading="lazy" width="300" src="https://www.haircuttery.com/wp-content/uploads/2026/04/senior-women-layers-300x300.jpg"/>
 </div>
 </div>
 </section>
@@ -397,7 +392,7 @@
 <div class="space-y-6">
 <div class="flex items-start gap-4">
 <div class="w-12 h-12 bg-[#2D5A27] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="map-pin"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
 </div>
 <div>
 <h3 class="font-bold text-lg">Address</h3>
@@ -406,7 +401,7 @@
 </div>
 <div class="flex items-start gap-4">
 <div class="w-12 h-12 bg-[#2D5A27] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="phone"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 </div>
 <div>
 <h3 class="font-bold text-lg">Phone</h3>
@@ -415,7 +410,7 @@
 </div>
 <div class="flex items-start gap-4">
 <div class="w-12 h-12 bg-[#2D5A27] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-<i class="w-6 h-6 text-[#2D5A27]" data-lucide="clock"></i>
+<svg class="w-6 h-6 shrink-0 text-[#2D5A27]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 </div>
 <div>
 <h3 class="font-bold text-lg">Hours</h3>
@@ -429,7 +424,7 @@
 </div>
 <div class="mt-8">
 <a class="inline-flex items-center gap-2 bg-[#2D5A27] hover:bg-[#1e3d1a] text-white px-8 py-4 rounded-full font-bold transition shadow-lg" href="https://www.haircuttery.com/booking/?salonId=193">
-<i class="w-5 h-5" data-lucide="calendar"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
               Book Appointment
             </a>
 </div>
@@ -456,7 +451,7 @@
 <label class="block text-sm font-medium text-gray-700 mb-1" for="contact-message">Message *</label>
 <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2D5A27] focus:border-transparent outline-none transition" id="contact-message" name="message" required="" rows="4"></textarea>
 </div>
-<div class="g-recaptcha" data-sitekey=""></div>
+<div class="g-recaptcha" data-sitekey="" id="contact-recaptcha"></div>
 <p class="text-sm hidden" id="contact-message-status"></p>
 <button class="w-full bg-[#2D5A27] hover:bg-[#1e3d1a] text-white font-bold py-3 rounded-lg transition shadow-md" type="submit">
             Send Message
@@ -470,7 +465,7 @@
 <div class="max-w-7xl mx-auto px-4">
 <div class="grid md:grid-cols-4 gap-8 mb-8">
 <div>
-<img alt="Hair Cuttery" class="h-8 w-auto mb-4 brightness-0 invert" src="https://www.haircuttery.com/wp-content/uploads/2025/01/hc-logo-black.svg"/>
+<img alt="Hair Cuttery" class="h-8 w-auto mb-4 brightness-0 invert" height="32" src="https://www.haircuttery.com/wp-content/uploads/2025/01/hc-logo-black.svg" width="160"/>
 <p class="text-gray-400">Full-service, value-priced salon experiences for the entire family.</p>
 </div>
 <div>
@@ -494,13 +489,13 @@
 <h4 class="font-bold mb-4">Follow Us</h4>
 <div class="flex gap-4">
 <a class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#2D5A27] transition" href="https://www.facebook.com/haircuttery/" target="_blank">
-<i class="w-5 h-5" data-lucide="facebook"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
 </a>
 <a class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#2D5A27] transition" href="https://www.instagram.com/haircuttery/" target="_blank">
-<i class="w-5 h-5" data-lucide="instagram"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
 </a>
 <a class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#2D5A27] transition" href="https://twitter.com/haircuttery" target="_blank">
-<i class="w-5 h-5" data-lucide="twitter"></i>
+<svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.3 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
 </a>
 </div>
 </div>
@@ -512,9 +507,30 @@
 </footer>
 <!-- Scripts -->
 <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-    
+    function injectKoraRecaptchaScript() {
+      if (document.querySelector('script[data-kora-recaptcha]')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.google.com/recaptcha/api.js';
+      s.async = true;
+      s.defer = true;
+      s.setAttribute('data-kora-recaptcha', '1');
+      document.head.appendChild(s);
+    }
+
+    (function () {
+      var cfg = window.KORA_SITE_CONFIG || {};
+      var k = (cfg.recaptchaSiteKey || '').trim();
+      var el = document.getElementById('contact-recaptcha');
+      if (el && !k) {
+        el.remove();
+        return;
+      }
+      if (!el || !k) return;
+      el.setAttribute('data-sitekey', k);
+      var form = document.getElementById('contact-form');
+      if (form) form.addEventListener('focusin', injectKoraRecaptchaScript, { once: true });
+    })();
+
     // Contact Form Handler
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -522,7 +538,7 @@
       var cfg = window.KORA_SITE_CONFIG || {};
       var apiBaseUrl = (cfg.apiBaseUrl || '').replace(/\/+$/, '');
       var businessId = cfg.businessId;
-      var recaptchaKey = cfg.recaptchaSiteKey;
+      var recaptchaKey = (cfg.recaptchaSiteKey || '').trim();
       
       var nameEl = document.getElementById('contact-name');
       var emailEl = document.getElementById('contact-email');
@@ -553,7 +569,13 @@
         return;
       }
       
-      // reCAPTCHA check
+      // reCAPTCHA: load script on demand if key is configured
+      if (recaptchaKey && typeof grecaptcha === 'undefined') {
+        injectKoraRecaptchaScript();
+        showStatus('Loading security check… please try again in a moment.', true);
+        return;
+      }
+
       var token = '';
       if (typeof grecaptcha !== 'undefined' && recaptchaKey) {
         token = grecaptcha.getResponse();
